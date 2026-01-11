@@ -56,5 +56,3 @@ A `text2text-generation` pipeline was implemented to allow for custom inference.
 * **Sample Context:** *"The University of Notre Dame is a Catholic research university located in South Bend, Indiana."*
 * **Sample Question:** *"Where is the University of Notre Dame located?"*
 * **Model Task:** The model generates the predicted answer text based on these inputs.
-
-Would you like me to help you evaluate this model using **Exact Match (EM)** and **F1 scores** on the full validation set?
