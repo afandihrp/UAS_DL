@@ -1,3 +1,7 @@
+# Multi-Label Emotion Classification (Task 1.1)
+
+---
+
 ## 📌 Project Objectives
 
 The notebook aims to evaluate the performance of two distinct natural language processing (NLP) approaches:
