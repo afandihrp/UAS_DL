@@ -1,4 +1,4 @@
-# Multi-Label Emotion Classification (Task 1.1)
+# Fine-Tuning BERT for AG News Text Classification (Task 1.1)
 
 ---
 
