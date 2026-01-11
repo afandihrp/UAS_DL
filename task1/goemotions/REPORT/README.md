@@ -1,6 +1,4 @@
-# README: Fine-Tuning BERT for GoEmotions Multi-Label Classification
-
-This repository contains a Jupyter Notebook (`task_1_2.ipynb`) focused on **multi-label text classification** using the GoEmotions dataset. The project compares a traditional machine learning baseline with a fine-tuned BERT transformer model.
+# Fine-Tuning BERT for GoEmotions Multi-Label Classification
 
 ---
 
