@@ -1,7 +1,3 @@
-This README provides a comprehensive overview of the experiments conducted in the `task_1_1.ipynb` notebook, focusing on the classification of news articles using the **AG News** dataset.
-
----
-
 ## 📌 Project Objectives
 
 The notebook aims to evaluate the performance of two distinct natural language processing (NLP) approaches:
