@@ -1,6 +1,4 @@
-# README: Multi-Label Emotion Classification (Task 1.2)
-
-This notebook performs **multi-label text classification** on the **GoEmotions** dataset, which consists of Reddit comments labeled with 28 emotion categories. The project focuses on transitioning from a statistical baseline to a transformer-based model.
+# Multi-Label Emotion Classification (Task 1.2)
 
 ---
 
