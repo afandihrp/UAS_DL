@@ -1,86 +1,68 @@
-# Laporan Fine-tuning BERT pada AG News
+# README: Fine-Tuning BERT for AG News Text Classification
 
-Deskripsi singkat eksperimen fine-tuning BERT untuk klasifikasi topik berita pada dataset AG News (4 kelas).
+This repository contains a Jupyter Notebook demonstrating a comparative study between traditional Machine Learning and Deep Learning (Transformer-based) approaches for multi-class text classification using the **AG News dataset**.
 
-## 1. Ringkasan
-- Dataset: AG News (4 kelas: World, Sports, Business, Sci/Tech)
-- Model dasar: `bert-base-uncased` (encoder Transformer)
-- Task: supervised single-label classification (4 kelas)
-
-## 2. Setup environment
-Instal dependensi (jalankan di environment/virtualenv yang aktif):
-
-```bash
-python -m pip install -q transformers datasets evaluate accelerate
-```
-
-Notebook utama: [test.ipynb](test.ipynb)
-
-## 3. Konfigurasi training (yang digunakan di notebook)
-- Model: bert-base-uncased (AutoModelForSequenceClassification)
-- Tokenizer: AutoTokenizer.from_pretrained('bert-base-uncased')
-- Epochs: 3
-- Learning rate: 2e-5
-- Batch size train: 16
-- Batch size eval: 64
-- Weight decay: 0.01
-- Evaluation strategy: per epoch
-- Metric utama: accuracy (juga menyimpan weighted F1)
-
-Lokasi keluaran model: `./results` (Training logs & checkpoints) dan model akhir disimpan di `./fine-tuned-bert-agnews` oleh notebook.
-
-## 4. Hasil (metrics)
-Jalankan cell evaluasi di notebook untuk melihat metrik aktual yang dihasilkan oleh run Anda. Contoh format metrik yang akan dicetak oleh notebook:
-
-```
-{'eval_loss': ..., 'eval_accuracy': ..., 'eval_f1_weighted': ..., 'epoch': ...}
-```
-
-Jika Anda sudah menjalankan training, tempel/replace hasil berikut di bagian ini (contoh):
-
-- Accuracy (test): 0.95
-- Weighted F1 (test): 0.95
-
-
-## 5. Inference contoh
-Notebook sudah menambahkan cell inference yang memuat model yang tersimpan dan memetakan label internal `LABEL_#` ke nama kategori manusia:
-
-- Mapping: `['World', 'Sports', 'Business', 'Sci/Tech']`
-
-Contoh menjalankan inference dari terminal (jika Anda ingin menjalankan skrip kecil):
-
-```bash
-# aktifkan environment Anda lalu jalankan Python REPL atau skrip yang memuat
-python - <<'PY'
-from transformers import pipeline
-classifier = pipeline('text-classification', model='./fine-tuned-bert-agnews', tokenizer='./fine-tuned-bert-agnews', device=0)
-print(classifier('Apple releases their latest iPhone model with new features.'))
-PY
-```
-
-### Contoh Hasil Inference
-Berikut adalah contoh hasil inference dari notebook `test.ipynb`:
-
-```
-Text: Apple releases their latest iPhone model with new features.
-Prediction: {'label': 'Sci/Tech', 'score': 0.9823869466781616}
 ---
-Text: The government announced new policies affecting the economy.
-Prediction: {'label': 'Business', 'score': 0.9666765928268433}
+
+## 📋 Project Overview
+
+The goal of this project is to classify news articles into four distinct categories:
+
+1. **World** (0)
+2. **Sports** (1)
+3. **Business** (2)
+4. **Sci/Tech** (3)
+
+The notebook walks through the entire pipeline, from data exploration and traditional baseline modeling to fine-tuning a pre-trained **BERT (Bidirectional Encoder Representations from Transformers)** model.
+
 ---
-```
 
-## 6. Cara mereproduksi (singkat)
-1. Aktifkan virtualenv (mis. `source virtualenvdl/bin/activate`).
-2. Instal dependensi (lihat bagian Setup). 
-3. Buka Jupyter dan jalankan `test.ipynb` sel demi sel, atau jalankan training cell yang memanggil `trainer.train()`.
+## 🛠️ Technology Stack
 
-## 7. Catatan & tips
-- Gunakan GPU untuk percepatan (set `CUDA_VISIBLE_DEVICES` atau jalankan pada mesin dengan CUDA).\
-- Untuk push model ke Hugging Face Hub, tambahkan `trainer.push_to_hub()` setelah autentikasi.
-- Jika ingin eksperimen lebih ringan: coba `distilbert-base-uncased` atau kurangi batch size / gunakan gradient accumulation.
+* **Language:** Python
+* **Libraries:** `transformers`, `datasets`, `evaluate`, `scikit-learn`, `pandas`, `torch`
+* **Deep Learning Model:** `bert-base-uncased`
+* **Traditional Baseline:** Logistic Regression with TF-IDF vectorization
 
-## 8. Kesimpulan
-Model `bert-base-uncased` berhasil di-fine-tune untuk tugas klasifikasi topik AG News. Dengan hyperparameter yang ditentukan, model mencapai akurasi tinggi sebesar 95% dan skor F1 tertimbang sebesar 95% pada set pengujian.
+---
 
-Hasil ini menunjukkan bahwa transfer learning dengan model dasar BERT sangat efektif untuk tugas klasifikasi teks. Model yang telah di-fine-tune ini mampu membedakan empat kategori berita dengan sangat baik dan siap digunakan untuk inferensi pada data baru.
+## 📊 Experimental Results
+
+The models were evaluated based on their accuracy on the test set. Despite being trained on a small subset of the total data, the deep learning approach outperformed the traditional baseline.
+
+| Model | Technique | Accuracy |
+| --- | --- | --- |
+| **Traditional Baseline** | Logistic Regression + TF-IDF | **90.57%** |
+| **Fine-Tuned BERT** | `bert-base-uncased` (3 Epochs) | **94.50%** |
+
+### Training Performance (BERT)
+
+The BERT model was fine-tuned on a stratified sample of 2,000 training examples and evaluated on 200 validation examples.
+
+| Epoch | Training Loss | Validation Loss | Accuracy |
+| --- | --- | --- | --- |
+| 1 | N/A | 0.3050 | 92.00% |
+| 2 | N/A | 0.2431 | 94.50% |
+| 3 | 0.3549 | 0.2538 | 94.00% |
+
+> **Note:** The final model selected was the checkpoint from **Epoch 2**, as it achieved the highest validation accuracy () and the lowest validation loss ().
+
+---
+
+## 🚀 Key Features
+
+* **Stratified Sampling:** Ensures that even with a reduced training size, all classes are represented proportionally.
+* **Comparative Analysis:** Provides a clear benchmark by comparing modern Transformer architectures against classic statistical methods.
+* **Inference Pipeline:** Includes a ready-to-use `transformers.pipeline` for making predictions on custom text.
+
+### Example Inference
+
+**Input:** *"The new spacecraft successfully landed on Mars today to search for life."* **Predicted Category:** `Sci/Tech`
+
+---
+
+## 📂 Model Saving
+
+The fine-tuned model and its corresponding tokenizer are saved in the directory `./ag-news-bert-model` for future deployment or further testing.
+
+Would you like me to help you create a **requirements.txt** file based on the libraries used in this notebook?
