@@ -70,11 +70,3 @@ The notebook includes a pipeline for testing custom text.
 1. **LABEL_27** (Neutral) - Score: 0.245
 2. **LABEL_0** (Admiration) - Score: 0.138
 3. **LABEL_4** (Approval) - Score: 0.093
-
----
-
-## 📂 Saved Artifacts
-
-The fine-tuned model and tokenizer are exported to the directory `./goemotions-bert-model` for future use or deployment.
-
-Would you like me to help you adjust the **classification threshold** or increase the **training samples** to help the BERT model achieve a better F1 score?
