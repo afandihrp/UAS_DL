@@ -17,17 +17,6 @@ The goal is to train a sequence-to-sequence model that can read a context paragr
 
 ---
 
-## 📊 Performance Results
-
-The training process showed a sharp improvement in the model's ability to minimize error by the second epoch.
-
-| Epoch | Training Loss | Validation Loss |
-| --- | --- | --- |
-| **1** | N/A | **5.0874** |
-| **2** | N/A | **0.3351** |
-
----
-
 ## 🔍 Inference Implementation
 
 The notebook includes a **`text2text-generation`** pipeline, allowing users to input custom context and questions to receive generated answers directly from the fine-tuned model.
