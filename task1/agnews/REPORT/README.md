@@ -58,11 +58,3 @@ The BERT model was fine-tuned on a stratified sample of 2,000 training examples 
 ### Example Inference
 
 **Input:** *"The new spacecraft successfully landed on Mars today to search for life."* **Predicted Category:** `Sci/Tech`
-
----
-
-## 📂 Model Saving
-
-The fine-tuned model and its corresponding tokenizer are saved in the directory `./ag-news-bert-model` for future deployment or further testing.
-
-Would you like me to help you create a **requirements.txt** file based on the libraries used in this notebook?
