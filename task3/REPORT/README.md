@@ -1,57 +1,84 @@
-# Fine-Tuning GPT-2 for Sentiment Analysis (Task 3)
+# Fine-Tuning Phi-2 for Abstractive Summarization (XSum)
+
+This project demonstrates an end-to-end pipeline for fine-tuning the **Phi-2** (2.7 billion parameter) language model. The model is specifically optimized to transform long-form news articles into concise, one-sentence abstractive summaries using the **XSum (Extreme Summarization)** dataset.
+
+## 🚀 Project Overview
+
+The goal was to adapt a general-purpose causal language model for a specific sequence-to-sequence task (summarization) while operating within significant memory constraints (approx. **5.67GB GPU VRAM**).
+
+### Key Components:
+
+* **Base Model:** Microsoft Phi-2.
+* **Dataset:** `EdinburghNLP/xsum` (A subset of 5,000 training and 500 validation samples was used for efficiency).
+* **Methodology:** Parameter-Efficient Fine-Tuning (**PEFT**) using **LoRA** (Low-Rank Adaptation) and **4-bit Quantization**.
 
 ---
 
-## 📋 Project Overview
+## 🛠️ Technical Implementation
 
-The primary goal is to classify movie reviews into **Positive** or **Negative** sentiments. Unlike BERT or T5, GPT-2 is traditionally used for text generation; this notebook explores the configuration necessary to use it as a classifier.
+### 1. Memory Optimization
 
-### 🛠️ Technology Stack
+To enable training on consumer-grade or entry-level cloud GPUs (like the NVIDIA T4), the following techniques were applied:
 
-* **Model:** `gpt2` (pre-trained).
-* **Libraries:** `transformers`, `datasets`, `evaluate`, `scikit-learn`, and `pandas`.
-* **Platform:** Developed and tested in a **Google Colab** environment.
+* **4-bit Quantization:** Utilized `bitsandbytes` with NF4 (NormalFloat 4) and Double Quantization.
+* **LoRA:** Instead of updating 2.7B parameters, only **10.48M parameters** (0.37% of the total) were made trainable.
+* **Gradient Checkpointing:** Enabled to reduce memory footprint by not storing all intermediate activations during the forward pass.
+* **Optimizer:** Used `paged_adamw_8bit` to handle memory spikes during optimization.
 
----
+### 2. Prompt Engineering
 
-## ⚙️ Methodology
+The model was trained using an **instruction-style format** to guide the generation process:
 
-### 1. Model Configuration
+> **### Instruction:** Summarize the following news article in a concise and abstractive way.
+> **### Article:** [Full Article Text]
+> **### Summary:** [Ground Truth Summary]
 
-* **Padding Token:** Since GPT-2 does not have a default padding token, the **End-of-Sequence (EOS) token** was assigned as the `pad_token` to ensure consistent input lengths.
-* **Classification Head:** An `AutoModelForSequenceClassification` was used to add a linear layer on top of the transformer for binary sentiment labels.
+### 3. Training Configuration
 
-### 2. Data Preprocessing
-
-* **Proportional Stratified Sampling:** To manage computational resources, the notebook uses a stratified sampling function to select a representative subset of **1,000 training samples** and **200 validation samples** while maintaining a balanced distribution of positive and negative reviews.
-* **Tokenization:** Inputs are tokenized with a maximum length of **512 tokens**, with truncation and padding enabled.
-
-### 3. Training Hyperparameters
-
-* **Learning Rate:** .
-* **Batch Size:** 8.
-* **Epochs:** 2.
-* **Weight Decay:** 0.01.
+* **Epochs:** 1
+* **Effective Batch Size:** 8 (Batch size 1 per device × 8 Gradient Accumulation steps).
+* **Sequence Length:** 512 tokens.
+* **Learning Rate:**  with a cosine scheduler.
 
 ---
 
-## 📊 Results Summary
+## 📊 Results and Evaluation
 
-The training progress indicates that the model successfully converged, achieving high accuracy on the validation set after two epochs.
+### Training Metrics
 
-| Epoch | Training Loss | Validation Loss | Accuracy |
-| --- | --- | --- | --- |
-| **1** | N/A | **0.4611** | **83.50%** |
-| **2** | **0.4132** | **0.3150** | **89.50%** |
+The model was trained for **625 steps**. The loss curves indicated stable convergence:
 
-* **Final Training Loss:** 0.4132.
-* **Total Runtime:** ~3,121 seconds.
+| Metric | Value |
+| --- | --- |
+| **Initial Training Loss** | ~2.21 |
+| **Final Validation Loss** | **2.11** |
+| **Total Trainable Params** | 10,485,760 |
+
+### Qualitative Example
+
+In testing, the model successfully generated summaries that captured the core intent of the articles:
+
+* **Article Excerpt:** A story regarding the Sodje brothers and fraudulent charges related to their sports foundation.
+* **Ground Truth:** Former Premier League footballer Sam Sodje has appeared in court alongside three brothers accused of charity fraud.
+* **Generated Summary:** A former Reading defender was cleared of fraud accusations related to a charity called the Sodje Sports Foundation... [The model also generated additional context about the trial].
+
+> **Note:** As a causal LM, the model occasionally continues generating text (such as "Vocabulary Exercises") after the summary. This can be mitigated in production by using stopping criteria or post-processing the output at the first newline or specific token.
 
 ---
 
-## 🔍 Inference and Testing
+## 📦 Requirements
 
-A `sentiment-analysis` pipeline was established using the fine-tuned GPT-2 weights.
+To reproduce this result, the following libraries are required:
 
-* **Example Input:** *"I absolutely loved this movie! The acting was superb and the plot was very engaging."*
-* **Result:** Correctly classified as **POSITIVE**.
+* `transformers` (v4.57.3 or later)
+* `peft` (v0.18.0)
+* `bitsandbytes` (v0.49.0)
+* `accelerate`
+* `datasets`
+* `torch`
+
+---
+
+## 🏁 Conclusion
+
+This project successfully demonstrates that a relatively small but powerful model like **Phi-2** can be fine-tuned for complex NLP tasks like abstractive summarization using PEFT techniques. The resulting model provides a balance between performance and computational efficiency, making it suitable for deployment in resource-constrained environments.
