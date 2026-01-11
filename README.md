@@ -80,20 +80,36 @@ This research demonstrates that through **Quantization** and **LoRA**, high-qual
 ## 📂 Repository Structure
 
 The repository is organized into three primary task folders, each representing a milestone in the research journey:
-.
-├── task1/                     # Dataset Exploration & Classification
-│   ├── agnews/
-│   │   └── task_1_1.ipynb     # News topic classification analysis
-│   ├── goemotions/
-│   │   └── task_1_2.ipynb     # Emotion detection analysis
-│   └── mnli/
-│       ├── test.ipynb         # Logic and inference testing
-│       └── README.md
-├── task2/                     # Optimization & Environment
-│   ├── task_2.ipynb           # Quantization & Model Loading pipeline
-│   └── README.md
-├── task3/                     # Fine-Tuning & Deployment
-│   ├── task_3.ipynb           # QLoRA Fine-tuning for XSum
-│   └── README.md
-├── .gitignore
-└── README.md                  # Project overview (This file)
+
+- task1
+  - agnews 
+    - NOTEBOOK
+      -   task_1_1.ipynb
+    - REPORT
+      -   README.md
+    - README.md
+  - goemotions
+    - NOTEBOOK
+      -   task_1_2.ipynb
+    - REPORT
+      -   README.md
+    - README.md
+  - mnli
+    - NOTEBOOK
+      -   task_1_3.ipynb
+    - REPORT
+      -   README.md
+    - README.md
+- task2
+  - NOTEBOOK
+    -   task_2.ipynb
+  - REPORT
+    -   README.md
+  - README.md
+- task3
+  - NOTEBOOK
+    -   task_3.ipynb
+  - REPORT
+    -   README.md
+  - README.md
+- README.md
