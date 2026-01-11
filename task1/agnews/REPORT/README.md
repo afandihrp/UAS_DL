@@ -1,6 +1,4 @@
-# README: Fine-Tuning BERT for AG News Text Classification
-
-This repository contains a Jupyter Notebook demonstrating a comparative study between traditional Machine Learning and Deep Learning (Transformer-based) approaches for multi-class text classification using the **AG News dataset**.
+# Fine-Tuning BERT for AG News Text Classification
 
 ---
 
