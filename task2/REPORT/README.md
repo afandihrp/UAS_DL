@@ -1,6 +1,4 @@
-# README: Fine-Tuning T5 for Question Answering (SQuAD)
-
-This repository contains a Jupyter Notebook (`task_2.ipynb`) demonstrating the fine-tuning of the **T5-small** model for generative **Question Answering** using the **SQuAD v1.1** dataset.
+# Fine-Tuning T5 for Question Answering (SQuAD)
 
 ---
 
