@@ -19,3 +19,13 @@ The dataset contains news articles categorized into four classes:
 4. **Sci/Tech**
 
 To optimize training time, the notebook utilizes a stratified sampling approach, selecting 2,000 samples for training and 200 samples for evaluation.
+
+---
+
+## ✅ Requirements
+This notebook performs news category classification using a BERT model.
+- torch
+- transformers
+- datasets
+- evaluate
+- numpy
