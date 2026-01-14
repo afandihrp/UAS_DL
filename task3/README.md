@@ -17,3 +17,20 @@ Due to the model size and hardware constraints (specifically a **5.67GB GPU**), 
 * **Batch Configuration:** A per-device batch size of 1 with **8 gradient accumulation steps**, resulting in an effective batch size of 8.
 * **Training Performance:** The model completed 1 epoch (625 steps) in approximately **1 hour and 38 minutes**.
 * **Loss Metrics:** The training achieved a final validation loss of **2.118299**.
+
+## ✅ Requirements
+This notebook fine-tunes the Phi-2 model using Low-Rank Adaptation (LoRA) and 4-bit quantization.
+**Core AI Libraries:**
+- torch
+- transformers
+- datasets
+**Optimization & Fine-tuning:**
+- peft (Parameter-Efficient Fine-Tuning)
+- bitsandbytes (for 4-bit quantization)
+- accelerate
+**Evaluation & Utilities:**
+- evaluate
+- rouge_score
+- nltk
+- tqdm
+- numpy
