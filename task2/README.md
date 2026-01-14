@@ -20,3 +20,15 @@ The goal is to train a sequence-to-sequence model that can read a context paragr
 ## 🔍 Inference Implementation
 
 The notebook includes a **`text2text-generation`** pipeline, allowing users to input custom context and questions to receive generated answers directly from the fine-tuned model.
+
+---
+
+## ✅ Requirements
+
+This notebook fine-tunes a model for sequence-to-sequence translation tasks.
+- torch
+- transformers
+- datasets
+- evaluate
+- rouge_score (used for evaluation metrics)
+- numpy

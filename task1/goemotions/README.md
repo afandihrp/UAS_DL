@@ -21,3 +21,13 @@
 * **Loss Function**: The model uses multi-label classification logic, applying a sigmoid layer to the outputs.
 * **Inference**: A Hugging Face `pipeline` is provided to predict the top 3 emotions for custom text inputs.
 * **Model Storage**: The final weights and tokenizer are saved to `./goemotions-bert-model`.
+
+---
+
+## ✅ Requirements
+This notebook handles multi-label text classification for emotions.
+- torch
+- transformers
+- datasets
+- evaluate
+- numpy
