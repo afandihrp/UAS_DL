@@ -17,19 +17,19 @@ The projects are organized into three main categories:
 ### **Task 1: Text Understanding**
 
 * **1.1 News Category Classification (`task_1_1.ipynb`)**
-* **Goal:** Classify news articles into four categories: World, Sports, Business, and Sci/Tech.
-* **Model:** BERT (`bert-base-uncased`).
-* **Dataset:** AG News.
+  * **Goal:** Classify news articles into four categories: World, Sports, Business, and Sci/Tech.
+  * **Model:** BERT (`bert-base-uncased`).
+  * **Dataset:** AG News.
 
 
 * **1.2 Emotion Detection (`task_1_2.ipynb`)**
-* **Goal:** Multi-label classification to identify various emotional states within a text snippet.
-* **Model:** BERT-based architecture.
+  * **Goal:** Multi-label classification to identify various emotional states within a text snippet.
+  * **Model:** BERT-based architecture.
 
 
 * **1.3 Natural Language Inference (`task_1_3.ipynb`)**
-* **Goal:** Predict the relationship between a premise and a hypothesis (Entailment, Neutral, or Contradiction).
-* **Model:** BERT.
+  * **Goal:** Predict the relationship between a premise and a hypothesis (Entailment, Neutral, or Contradiction).
+  * **Model:** BERT.
 
 
 
@@ -43,11 +43,9 @@ The projects are organized into three main categories:
 * **Goal:** Fine-tune Microsoft’s **Phi-2 (2.7B)** model to generate concise, abstractive summaries of news articles.
 * **Dataset:** XSum (Extreme Summarization).
 * **Advanced Techniques Used:**
-* **QLoRA:** 4-bit quantization using `bitsandbytes` to reduce memory footprint.
-* **LoRA (Low-Rank Adaptation):** Fine-tuning only 0.37% of total parameters (~10.4M).
-* **Gradient Checkpointing:** Enabled to allow training on consumer-grade GPUs (e.g., NVIDIA T4).
-
-
+  * **QLoRA:** 4-bit quantization using `bitsandbytes` to reduce memory footprint.
+  * **LoRA (Low-Rank Adaptation):** Fine-tuning only 0.37% of total parameters (~10.4M).
+  * **Gradient Checkpointing:** Enabled to allow training on consumer-grade GPUs (e.g., NVIDIA T4).
 
 ---
 
