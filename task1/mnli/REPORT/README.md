@@ -1,4 +1,4 @@
-# 1.3 Question Answering with SQuAD
+# Question Answering with SQuAD
 
 ## 📋 Task Overview
 
