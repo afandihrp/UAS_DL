@@ -1,79 +1,90 @@
-# Research Project: Fine-Tuning Phi-2 for Extreme Summarization
+# NLP Task Suite: From Classification to LLM Fine-Tuning
 
-## 📋 Executive Summary
+This repository contains a comprehensive set of Natural Language Processing (NLP) projects, ranging from foundational text classification to advanced Large Language Model (LLM) fine-tuning using Parameter-Efficient Fine-Tuning (PEFT) techniques.
 
-This research explores the viability of using small-scale Large Language Models (LLMs) for specific NLP tasks under significant hardware constraints. We successfully adapted **Microsoft’s Phi-2 (2.7B parameters)** to generate one-sentence summaries of news articles using the **XSum dataset**. By utilizing **QLoRA (Quantized Low-Rank Adaptation)**, we reduced memory requirements by over 70%, enabling high-performance training on consumer-grade GPU environments.
+## 📋 Repository Overview
 
----
+The projects are organized into three main categories:
 
-## 🔬 Research Phase 1: Data Engineering (Tasks 1.1 & 1.2 & 1.3)
-
-The first phase focused on understanding the linguistic characteristics of the **EdinburghNLP/xsum** dataset and preparing it for a causal language modeling objective.
-
-* **Dataset Objective:** Unlike standard summarization (which often results in a paragraph), XSum is "extreme"—it requires the model to synthesize a full news article into a single, punchy sentence.
-* **Exploratory Data Analysis (EDA):** We analyzed document lengths and summary distributions to determine optimal sequence padding and truncation strategies.
-* **Instruction Wrapper:** We engineered a specific template to transform the raw text into an instruction-following format:
-> **Instruction:** Summarize the following news article in a concise and abstractive way.
-> **Article:** [Full Text]
-> **Summary:** [Target]
-
-
-* **Tokenization Strategy:** We implemented a custom tokenization pipeline using the `AutoTokenizer` from Phi-2, handling padding tokens and sequence length limits (max 512 tokens) to ensure efficient GPU batching.
+1. **Discriminative NLP (Task 1):** Focuses on understanding and labeling text (Classification & Inference).
+2. **Sequence-to-Sequence Modeling (Task 2):** Focuses on transforming text from one form to another (Translation).
+3. **Generative AI & LLMs (Task 3):** Focuses on fine-tuning state-of-the-art causal language models for specific tasks (Summarization).
 
 ---
 
-## 🏗️ Research Phase 2: Optimization & Architecture (Task 2)
+## 🛠️ Project Structure & Task Details
 
-In the second phase, we addressed the "Hardware Gap"—training a multi-billion parameter model on limited VRAM (approx. 5.67GB).
+### **Task 1: Text Understanding**
 
-* **4-Bit Quantization:** We implemented **NF4 (NormalFloat 4)** quantization via the `bitsandbytes` library. This allowed us to load the model weights in a highly compressed 4-bit format while maintaining 16-bit precision for computation.
-* **Memory Management:** * **Gradient Checkpointing:** Enabled to save memory by re-calculating activations during the backward pass.
-* **Paged Optimizers:** Used `paged_adamw_8bit` to handle potential memory spikes.
+* **1.1 News Category Classification (`task_1_1.ipynb`)**
+* **Goal:** Classify news articles into four categories: World, Sports, Business, and Sci/Tech.
+* **Model:** BERT (`bert-base-uncased`).
+* **Dataset:** AG News.
 
 
-* **Model Loading:** We verified the model's architecture, identifying the target layers (`q_proj`, `k_proj`, `v_proj`, `dense`) for the subsequent adaptation phase.
+* **1.2 Emotion Detection (`task_1_2.ipynb`)**
+* **Goal:** Multi-label classification to identify various emotional states within a text snippet.
+* **Model:** BERT-based architecture.
 
----
 
-## 🚀 Research Phase 3: PEFT Training & Evaluation (Task 3)
+* **1.3 Natural Language Inference (`task_1_3.ipynb`)**
+* **Goal:** Predict the relationship between a premise and a hypothesis (Entailment, Neutral, or Contradiction).
+* **Model:** BERT.
 
-The final phase involved the actual fine-tuning using **Parameter-Efficient Fine-Tuning (PEFT)**.
 
-### 1. LoRA Configuration
 
-Instead of updating all 2.7 billion parameters, we injected low-rank matrices into the attention layers.
+### **Task 2: Machine Translation (`task_2.ipynb`)**
 
-* **Rank ():** 16
-* **Alpha ():** 32
-* **Trainable Parameters:** Only **10,485,760** parameters (0.37% of the model). This drastically reduced the computational overhead while preventing "catastrophic forgetting."
+* **Goal:** Fine-tune a Sequence-to-Sequence (Seq2Seq) model for high-quality language translation.
+* **Key Metric:** Evaluated using BLEU and ROUGE scores.
 
-### 2. Training Execution
+### **Task 3: Phi-2 Abstractive Summarization (`task_3.ipynb`)**
 
-* **Optimization:** We trained for 1 epoch over a filtered subset of 5,000 samples.
-* **Results:** The training loss decreased steadily, achieving a final validation loss of **2.11**.
-* **Compute Time:** Total fine-tuning took approximately **1 hour and 38 minutes** on the target hardware.
+* **Goal:** Fine-tune Microsoft’s **Phi-2 (2.7B)** model to generate concise, abstractive summaries of news articles.
+* **Dataset:** XSum (Extreme Summarization).
+* **Advanced Techniques Used:**
+* **QLoRA:** 4-bit quantization using `bitsandbytes` to reduce memory footprint.
+* **LoRA (Low-Rank Adaptation):** Fine-tuning only 0.37% of total parameters (~10.4M).
+* **Gradient Checkpointing:** Enabled to allow training on consumer-grade GPUs (e.g., NVIDIA T4).
 
-### 3. Accomplishments & Inference
 
-The project culminated in a functional summarization model. We implemented an inference pipeline utilizing:
-
-* **Nucleus Sampling ():** To ensure varied and natural language generation.
-* **Repetition Penalty ():** To prevent the model from getting stuck in infinite loops.
-* **Result:** The model successfully transitions from a general-purpose conversationalist to a specialized summarizer capable of condensing complex legal, political, and social news into single sentences.
 
 ---
 
-## 🛠️ Technology Stack
+## 🚀 Installation & Requirements
 
-* **Base Model:** Microsoft Phi-2
-* **Dataset:** Hugging Face `datasets` (XSum)
-* **Fine-Tuning:** PEFT (LoRA)
-* **Quantization:** BitsAndBytes (4-bit)
-* **Environment:** Python, PyTorch, Jupyter Notebooks
+To run these notebooks, you will need a Python 3.10+ environment with a CUDA-enabled GPU (minimum 8GB VRAM recommended for Task 3).
 
-## 🏁 Conclusion
+### **1. Clone the repository**
 
-This research demonstrates that through **Quantization** and **LoRA**, high-quality abstractive summarization is achievable even on constrained hardware. This project provides a blueprint for further specialized NLP tasks using small-but-mighty models like Phi-2.
+```bash
+git clone <repository-url>
+cd <repository-directory>
+
+```
+
+### **2. Install Dependencies**
+
+```bash
+pip install torch transformers datasets evaluate peft bitsandbytes accelerate rouge_score nltk numpy tqdm
+
+```
+
+---
+
+## 📈 NLP Task Evolution
+
+## 🧪 Usage
+
+1. **Task 1 & 2:** Standard fine-tuning notebooks. Simply open in Google Colab or Jupyter and run all cells to train and evaluate.
+2. **Task 3 (LLM):** Ensure you have `bitsandbytes` installed correctly for 4-bit support. The notebook includes a "Troubleshooting" cell to verify library versions before training begins.
+
+## 📊 Evaluation
+
+The models are evaluated using standard NLP metrics:
+
+* **Accuracy/F1-Score:** For classification tasks (Task 1).
+* **ROUGE:** For summarization tasks (Task 3) to measure overlapping n-grams between generated and reference summaries.
 
 ---
 
