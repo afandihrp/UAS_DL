@@ -20,15 +20,15 @@ Due to the model size and hardware constraints (specifically a **5.67GB GPU**), 
 
 ## ✅ Requirements
 This notebook fine-tunes the Phi-2 model using Low-Rank Adaptation (LoRA) and 4-bit quantization.
-**Core AI Libraries:**
+#### Core AI Libraries:
 - torch
 - transformers
 - datasets
-**Optimization & Fine-tuning:**
+#### Optimization & Fine-tuning:
 - peft (Parameter-Efficient Fine-Tuning)
 - bitsandbytes (for 4-bit quantization)
 - accelerate
-**Evaluation & Utilities:**
+#### Evaluation & Utilities:
 - evaluate
 - rouge_score
 - nltk
